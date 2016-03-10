@@ -36,14 +36,14 @@ public class Actuators {
 	private static final double RIGHT_DRIVE_KP = 1;
 	private static final double RIGHT_DRIVE_KI = 0;
 	private static final double RIGHT_DRIVE_KD = 0.025;
-	private static final boolean RIGHT_DRIVE_REVERSE_SENSOR = false; //ADAMBOTS ONLY
+	private static final boolean RIGHT_DRIVE_REVERSE_SENSOR = true; //ADAMBOTS ONLY
 	
 	
 	//The PID constants for left drive motors
 	private static final double LEFT_DRIVE_KP = 1;
 	private static final double LEFT_DRIVE_KI = 0;
 	private static final double LEFT_DRIVE_KD = 0.025;
-	private static final boolean LEFT_DRIVE_REVERSE_SENSOR = true;
+	private static final boolean LEFT_DRIVE_REVERSE_SENSOR = false;
 	
 	//Maximum and minimum motor speed constants and constant to stop motor
 	public static final double MAX_MOTOR_SPEED = 1;
@@ -114,7 +114,7 @@ public class Actuators {
 		// Solenoids
 		driveShiftPneumatic = new Solenoid(0);
 		winchRatchetPneumatic = new Solenoid(1);
-//		ringLight = new Solenoid(-1);
+		ringLight = new Solenoid(3);
 	}
 	
 	/**

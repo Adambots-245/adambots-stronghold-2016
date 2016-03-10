@@ -2,6 +2,7 @@
 package org.usfirst.frc.team245.robot;
 
 import com.github.adambots.stronghold2016.arm.Arm;
+import com.github.adambots.stronghold2016.auton.AutonForward;
 import com.github.adambots.stronghold2016.auton.AutonMain;
 import com.github.adambots.stronghold2016.auton.Barrier_ChevalDeFrise;
 import com.github.adambots.stronghold2016.auton.Barrier_Drawbridge;
@@ -58,7 +59,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("right one positions", new Right());
 		chooser.addObject("right two positions", new FarRight());
 		chooser.addObject("right three positions", new SuperRight());
-		chooser.addObject("Forward", new Forward());
+		chooser.addObject("Forward", new AutonForward());
 		// TODO: Uncomment inits
 		Sensors.init();
 		Shooter.init();
@@ -88,7 +89,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
-		Actuators.getRingLight().set(false);
+		Actuators.getRingLight().set(true);
 	}
 
 	public void disabledPeriodic() {
@@ -113,18 +114,15 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		Actuators.getLeftDriveMotor().setEncPosition(0);
 		Actuators.getRightDriveMotor().setEncPosition(0);
-		// autonomousCommand = (Command) chooser.getSelected();
+		 autonomousCommand = (Command) chooser.getSelected();
 		Actuators.teleopInit();
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+
+		
+		
 
 		// schedule the autonomous command (example)
-		// if (autonomousCommand != null)
-		// autonomousCommand.start();
+		if (autonomousCommand != null)
+			autonomousCommand.start();
 	}
 
 	/**
@@ -132,8 +130,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		Forward.go();
-		// autonomousCommand.start();
+		// Forward.go();
+		autonomousCommand.start();
 		// AutonMain.test();
 
 	}
