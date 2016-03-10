@@ -53,12 +53,7 @@ public class Robot extends IterativeRobot {
 		chooser = new SendableChooser();
 		// barrierChooser = new SendableChooser();
 		compressor = new Compressor();
-		chooser.addDefault("None", new Default());
-		chooser.addObject("left two positions", new FarLeft());
-		chooser.addObject("left one positions", new Left());
-		chooser.addObject("right one positions", new Right());
-		chooser.addObject("right two positions", new FarRight());
-		chooser.addObject("right three positions", new SuperRight());
+		chooser.addDefault("None", new Default());;
 		chooser.addObject("Forward", new AutonForward());
 		// TODO: Uncomment inits
 		Sensors.init();
