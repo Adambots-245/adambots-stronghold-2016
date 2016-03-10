@@ -25,7 +25,6 @@ public class SensorDio {
 		return Sensors.getRobotGyro().getAngle();
 	}
 	
-
 	public static double getWinchEncoder(){
 		return Sensors.getWinchEncoder().get();
 	}

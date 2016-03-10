@@ -14,7 +14,7 @@ import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 
-public class Dash_Camera {
+public class DashCamera {
 	static int currSession;
 	static int sessionfront;
 	static int sessionback;

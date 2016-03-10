@@ -77,7 +77,6 @@ public class Actuators {
 	 * Initializes all actuators
 	 */
 	public static void init() {
-		// TODO: Change ID's
 		// Motors
 		rightDriveMotor = new CANTalon(2);
 		rightDriveMotor = initCANTalon(rightDriveMotor, FeedbackDevice.QuadEncoder, RIGHT_DRIVE_REVERSE_SENSOR, 
@@ -105,7 +104,6 @@ public class Actuators {
 		armAngleMotor = initCANTalon(armAngleMotor, FeedbackDevice.AnalogPot, ARM_REVERSE_SENSOR, 
 				ARM_POT_TURNS_PER_REV, ARM_ACCEPTABLE_EROR, ARM_ANGLE_KP, ARM_ANGLE_KI, ARM_ANGLE_KD);
 		//TODO: Use string pot with CANTalon
-		
 
 		boulderIntakeMotor = new VictorSP(2);
 

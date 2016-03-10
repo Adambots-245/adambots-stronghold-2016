@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Solenoid;
  *
  */
 public class Sensors {
+	// Digital
 	private static Encoder winchEncoder;
 	private static DigitalInput intakeArmPhotoEye;
 	private static DigitalInput boulderCanLaunchPhotoEye;
