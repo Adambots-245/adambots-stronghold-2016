@@ -2,7 +2,8 @@
 package org.usfirst.frc.team245.robot;
 
 import com.github.adambots.stronghold2016.arm.Arm;
-import com.github.adambots.stronghold2016.auton.AutonForward;
+import com.github.adambots.stronghold2016.auton.ForwardOverChassis;
+import com.github.adambots.stronghold2016.auton.ForwardToRamp;
 import com.github.adambots.stronghold2016.auton.AutonMain;
 import com.github.adambots.stronghold2016.auton.Barrier_ChevalDeFrise;
 import com.github.adambots.stronghold2016.auton.Barrier_Drawbridge;
@@ -14,6 +15,9 @@ import com.github.adambots.stronghold2016.auton.Forward;
 import com.github.adambots.stronghold2016.auton.Left;
 import com.github.adambots.stronghold2016.auton.Right;
 import com.github.adambots.stronghold2016.auton.SuperRight;
+import com.github.adambots.stronghold2016.camera.AutoTarget;
+import com.github.adambots.stronghold2016.camera.TargetingMain;
+import com.github.adambots.stronghold2016.dash.AutonShootSpyBox;
 import com.github.adambots.stronghold2016.dash.DashCamera;
 import com.github.adambots.stronghold2016.dash.DashStringPotentiometer;
 //import com.github.adambots.stronghold2016.camera.AutoTarget;
@@ -54,13 +58,15 @@ public class Robot extends IterativeRobot {
 		// barrierChooser = new SendableChooser();
 		compressor = new Compressor();
 		chooser.addDefault("None", new Default());;
-		chooser.addObject("Forward", new AutonForward());
+		chooser.addObject("Forward Over Defense", new ForwardOverChassis());
+		chooser.addObject("Forward To Ramp", new ForwardToRamp());
+		chooser.addObject("Spy Shoot", new AutonShootSpyBox());
 		// TODO: Uncomment inits
 		Sensors.init();
 		Shooter.init();
 
 		Drive.init();// does not have anything
-		// AutoTarget.init();//does not contain anything
+		AutoTarget.init();//does not contain anything
 
 		SmartDashboard.putData("Auto mode", chooser);
 
@@ -75,6 +81,7 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putBoolean("barrier working", activeB.running());
 		DashCamera.camerasInit();
 		Actuators.getRingLight().set(true);
+		TargetingMain.init();
 
 	}
 
@@ -203,9 +210,9 @@ public class Robot extends IterativeRobot {
 		}
 
 		if (Gamepad.secondary.getY()) {
-			// Arm.climb(Gamepad.secondary.getY());
+			 Arm.climb(Gamepad.secondary.getY());
 		} else {
-			// Arm.climb(Gamepad.secondary.getRightY());
+			 Arm.climb(Gamepad.secondary.getRightY());
 		}
 
 		// TEST CODE

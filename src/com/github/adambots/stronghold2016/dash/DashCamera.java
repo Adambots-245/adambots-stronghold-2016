@@ -83,8 +83,8 @@ public class DashCamera {
 //			NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
 			NIVision.IMAQdxGrab(currSession, frame, 1);
 			if(currSession == sessionfront){
-				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
-				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
+//				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
+//				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
 			}
