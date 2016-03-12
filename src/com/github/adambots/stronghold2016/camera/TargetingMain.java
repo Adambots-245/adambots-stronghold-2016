@@ -7,9 +7,27 @@ public class TargetingMain extends Thread{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		while(true){
-			Camera.getTarget().publishTarget();
+		Camera.init();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+//		Camera.openStream();
+//		while(true){
+			Target target = Camera.getTarget();
+			if(target != null){
+				target.publishTarget();
+			}
+//		}
+		Camera.closeStream();
+	}
+	@Override
+	public void interrupt() {
+		// TODO Auto-generated method stub
+		super.interrupt();
+		Camera.closeStream();
 	}
 	
 	
