@@ -15,6 +15,7 @@ import com.github.adambots.stronghold2016.auton.Right;
 import com.github.adambots.stronghold2016.auton.SuperRight;
 import com.github.adambots.stronghold2016.dash.DashCamera;
 import com.github.adambots.stronghold2016.dash.DashStringPotentiometer;
+import com.github.adambots.stronghold2016.dash.PowerDio;
 //import com.github.adambots.stronghold2016.camera.AutoTarget;
 //import com.github.adambots.stronghold2016.camera.Target;
 import com.github.adambots.stronghold2016.drive.Drive;
@@ -250,6 +251,22 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
+		SmartDashboard.putDouble("PDP Channel 0:", PowerDio.getPDPCurrent(0));
+		SmartDashboard.putDouble("PDP Channel 1:", PowerDio.getPDPCurrent(1));
+		SmartDashboard.putDouble("PDP Channel 2:", PowerDio.getPDPCurrent(2));
+		SmartDashboard.putDouble("PDP Channel 3:", PowerDio.getPDPCurrent(3));
+		SmartDashboard.putDouble("PDP Channel 4:", PowerDio.getPDPCurrent(4));
+		SmartDashboard.putDouble("PDP Channel 5:", PowerDio.getPDPCurrent(5));
+		SmartDashboard.putDouble("PDP Channel 6:", PowerDio.getPDPCurrent(6));
+		SmartDashboard.putDouble("PDP Channel 7:", PowerDio.getPDPCurrent(7));
+		SmartDashboard.putDouble("PDP Channel 8:", PowerDio.getPDPCurrent(8));
+		SmartDashboard.putDouble("PDP Channel 9:", PowerDio.getPDPCurrent(9));
+		SmartDashboard.putDouble("PDP Channel 10:", PowerDio.getPDPCurrent(10));
+		SmartDashboard.putDouble("PDP Channel 11:", PowerDio.getPDPCurrent(11));
+		SmartDashboard.putDouble("PDP Channel 12:", PowerDio.getPDPCurrent(12));
+		SmartDashboard.putDouble("PDP Channel 13:", PowerDio.getPDPCurrent(13));
+		SmartDashboard.putDouble("PDP Channel 14:", PowerDio.getPDPCurrent(14));
+		SmartDashboard.putDouble("PDP Channel 15:", PowerDio.getPDPCurrent(15));
 		DashCamera.cameras(Gamepad.secondary.getX());
 	}
 }
