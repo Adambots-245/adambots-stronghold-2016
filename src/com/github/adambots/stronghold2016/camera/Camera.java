@@ -6,7 +6,7 @@ import java.util.Iterator;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.videoio.VideoCapture;
+import org.opencv.videoio.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,7 +15,7 @@ public class Camera {
 	public static final int IMAGE_WIDTH = 320;
 	private static final int PROP_IMAGE_HEIGHT = 4;
 	private static final int PROP_IMAGE_WIDTH = 3;
-	private static final int WEB_CAM = 1;
+	private static final int WEB_CAM = 0;
 	//HSV Filter constants
 	private static final int V_MAX = 255;
 	private static final int V_MIN = 250;
@@ -74,12 +74,16 @@ public class Camera {
 	}
 
 	public static boolean openStream(){
-//TODO:Testing from previous images		videoCapture.open(WEB_CAM);
+//TODO:Testing from previous images		
+		videoCapture.open(WEB_CAM);
 		
-		videoCapture.open("/Users/robinonsay/Documents/Java-workspace/adambots-stronghold-2016/tesy.png");
+//		videoCapture.open("/Users/robinonsay/Documents/Java-workspace/adambots-stronghold-2016/tesy.png");
 		
-		//videoCapture.set(PROP_IMAGE_WIDTH, IMAGE_WIDTH);
-		//videoCapture.set(PROP_IMAGE_HEIGHT, IMAGE_HEIGHT);
+		videoCapture.set(Videoio.CV_CAP_PROP_FRAME_WIDTH, IMAGE_WIDTH);
+		videoCapture.set(Videoio.CV_CAP_PROP_FRAME_HEIGHT, IMAGE_HEIGHT);
+//		videoCapture.set(Videoio.CV_CAP_PROP_XI_MANUAL_WB , 900);
+		videoCapture.set(Videoio.CAP_PROP_SATURATION, 900);
+		videoCapture.set(Videoio.CAP_PROP_EXPOSURE, -100);
 		return videoCapture.isOpened();
 	}
 

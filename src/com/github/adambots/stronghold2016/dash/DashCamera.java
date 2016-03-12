@@ -13,12 +13,13 @@ import com.ni.vision.NIVision.ROI;
 import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class DashCamera {
-	static int currSession;
-	static int sessionfront;
-	static int sessionback;
-	static Image frame;
+	private static int currSession;
+	private static int sessionfront;
+	private static int sessionback;
+	private static Image frame;
 
 	public static void camerasInit() {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -44,6 +45,16 @@ public class DashCamera {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+		
+		USBCamera cam0 = new USBCamera("cam0");
+		cam0.setExposureManual(100); // exposure, 0 to 100
+		cam0.setBrightness(100); // brightness, 0 to 100
+		cam0.setWhiteBalanceManual(10000); // white balance, unsure what max is (10000?)
+		
+		USBCamera cam1 = new USBCamera("cam1");
+		cam1.setExposureManual(100); // exposure, 0 to 100
+		cam1.setBrightness(100); // brightness, 0 to 100
+		cam1.setWhiteBalanceManual(10000); // white balance, unsure what max is (10000?)
 	}
 
 	public static void cameras(boolean toggle) {
@@ -93,7 +104,6 @@ public class DashCamera {
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 1);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 1);
 			}
-
 			CameraServer.getInstance().setImage(frame);
 
 		} catch (Exception e) {
