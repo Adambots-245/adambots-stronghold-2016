@@ -112,7 +112,7 @@ public class Actuators {
 		// Solenoids
 		driveShiftPneumatic = new Solenoid(0);
 		winchRatchetPneumatic = new Solenoid(1);
-//		ringLight = new Solenoid(-1);
+		ringLight = new Solenoid(3);
 	}
 	
 	/**

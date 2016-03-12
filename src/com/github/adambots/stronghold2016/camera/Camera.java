@@ -64,13 +64,14 @@ public class Camera {
 
 	
 	public static void init(){
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		matOriginal = new Mat();
 		matHSV = new Mat();
 		matThresh = new Mat();
 		matHeirarchy = new Mat();
 		//Opens Camera System
 		videoCapture = new VideoCapture();
+		openStream();
 	}
 
 	public static boolean openStream(){
@@ -82,8 +83,8 @@ public class Camera {
 		videoCapture.set(Videoio.CV_CAP_PROP_FRAME_WIDTH, IMAGE_WIDTH);
 		videoCapture.set(Videoio.CV_CAP_PROP_FRAME_HEIGHT, IMAGE_HEIGHT);
 //		videoCapture.set(Videoio.CV_CAP_PROP_XI_MANUAL_WB , 900);
-		videoCapture.set(Videoio.CAP_PROP_SATURATION, 900);
-		videoCapture.set(Videoio.CAP_PROP_EXPOSURE, -100);
+		videoCapture.set(Videoio.CAP_PROP_SATURATION, 50);
+//		videoCapture.set(Videoio.CAP_PROP_EXPOSURE, 10);
 		return videoCapture.isOpened();
 	}
 
@@ -100,7 +101,7 @@ public class Camera {
 		init();
 		System.out.println(openStream());
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,24 +114,28 @@ public class Camera {
 
 	}
 
-	public static Target getTarget(){
+	public static Target getTarget() {
 		MatOfPoint bestContour = getBestContour();
-		Rect rec = Imgproc.boundingRect(bestContour);
-		Imgproc.rectangle(matOriginal, rec.br(), rec.tl(), RED);
-		int centerX = rec.width/2 + rec.x;
-		int centerY = rec.height/2 + rec.y;
-		double y = rec.br().y + rec.height / 2;
-		y= -((2 * (y / matOriginal.height())) - 1);
-		double distance = (TOP_TARGET_HEIGHT - TOP_CAMERA_HEIGHT) / 
-				Math.tan((y * VERTICAL_FOV / 2.0 + CAMERA_ANGLE) * Math.PI / 180);
-		//TODO: TEST CODE---
-		Point center = new Point(rec.br().x-rec.width / 2 - 15,rec.br().y - rec.height / 2);
-		Point centerw = new Point(rec.br().x-rec.width / 2 - 15,rec.br().y - rec.height / 2 - 20);
-		Imgproc.putText(matOriginal, "HELLO WORLD", center, Core.FONT_HERSHEY_PLAIN, 1, RED);
-		Imgproc.putText(matOriginal, "", centerw, Core.FONT_HERSHEY_PLAIN, 1, RED);
-		Imgcodecs.imwrite("output.png", matOriginal);
-		//---
-		return new Target(centerX, centerY, rec.width * rec.height, distance, rec.height, rec.width);
+		if(bestContour != null){
+			Rect rec = Imgproc.boundingRect(bestContour);
+			Imgproc.rectangle(matOriginal, rec.br(), rec.tl(), RED);
+			int centerX = rec.width/2 + rec.x;
+			int centerY = rec.height/2 + rec.y;
+			double y = rec.br().y + rec.height / 2;
+			y= -((2 * (y / matOriginal.height())) - 1);
+			double distance = (TOP_TARGET_HEIGHT - TOP_CAMERA_HEIGHT) / 
+					Math.tan((y * VERTICAL_FOV / 2.0 + CAMERA_ANGLE) * Math.PI / 180);
+			//TODO: TEST CODE---
+			Point center = new Point(rec.br().x-rec.width / 2 - 15,rec.br().y - rec.height / 2);
+			Point centerw = new Point(rec.br().x-rec.width / 2 - 15,rec.br().y - rec.height / 2 - 20);
+			Imgproc.putText(matOriginal, "HELLO WORLD", center, Core.FONT_HERSHEY_PLAIN, 1, RED);
+			Imgproc.putText(matOriginal, "", centerw, Core.FONT_HERSHEY_PLAIN, 1, RED);
+			Imgcodecs.imwrite("/home/lvuser/output.png", matOriginal);
+			//---
+			return new Target(centerX, centerY, rec.width * rec.height, distance, rec.height, rec.width);
+		}else{
+			return null;
+		}
 	}
 	
 	
@@ -142,9 +147,9 @@ public class Camera {
 		Imgproc.cvtColor(matOriginal,matHSV,Imgproc.COLOR_RGB2HSV);
 		Core.inRange(matHSV, SCALAR_LOWER_BOUNDS, SCALAR_UPPER_BOUNDS, matThresh);
 		//TODO:TEST CODE---
-		Imgcodecs.imwrite("original.png", matOriginal);
-		Imgcodecs.imwrite("hsv.png", matHSV);
-		Imgcodecs.imwrite("thresh.png", matThresh);
+		Imgcodecs.imwrite("/home/lvuser/original.png", matOriginal);
+		Imgcodecs.imwrite("/home/lvuser/hsv.png", matHSV);
+		Imgcodecs.imwrite("/home/lvuser/thresh.png", matThresh);
 		//---
 		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 		contours.clear();
@@ -155,7 +160,7 @@ public class Camera {
 		//		make sure the contours that are detected are at least 20x20 
 		//		pixels with an area of 400 and an aspect ration greater then 1
 		//TODO:TEST CODE---
-		Imgcodecs.imwrite("contours.png", matThresh);
+		Imgcodecs.imwrite("/home/lvuser/contours.png", matThresh);
 		//---
 		for (Iterator<MatOfPoint> iterator = contours.iterator(); iterator.hasNext();) {
 
@@ -172,7 +177,7 @@ public class Camera {
 				System.out.println("width : height-> "+rec.width + " : "+rec.height + " "+ rec.x + " : " + rec.y);
 			}
 		}
-//		System.out.println(contours);
+		System.out.println("DONE WITH CONTOURS");
 		return contours;
 	}
 	private static boolean isNotTarget(Rect rec){

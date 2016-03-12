@@ -27,13 +27,13 @@ public class DashCamera {
 			sessionfront = NIVision.IMAQdxOpenCamera("cam0",
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception e) {
-			System.out.println("cam0 "+ e.toString());
+			e.printStackTrace();
 		}
 		try {
 			sessionback = NIVision.IMAQdxOpenCamera("cam1",
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception e) {
-			System.out.println("cam1 "+ e.toString());
+			e.printStackTrace();
 		}
 		
 		
@@ -43,18 +43,8 @@ public class DashCamera {
 		try {
 			NIVision.IMAQdxConfigureGrab(currSession);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
-		
-		USBCamera cam0 = new USBCamera("cam0");
-		cam0.setExposureManual(100); // exposure, 0 to 100
-		cam0.setBrightness(100); // brightness, 0 to 100
-		cam0.setWhiteBalanceManual(10000); // white balance, unsure what max is (10000?)
-		
-		USBCamera cam1 = new USBCamera("cam1");
-		cam1.setExposureManual(100); // exposure, 0 to 100
-		cam1.setBrightness(100); // brightness, 0 to 100
-		cam1.setWhiteBalanceManual(10000); // white balance, unsure what max is (10000?)
 	}
 
 	public static void cameras(boolean toggle) {
@@ -84,7 +74,7 @@ public class DashCamera {
 					currSession = sessionfront;
 					NIVision.IMAQdxConfigureGrab(currSession);
 				} catch (Exception e) {
-					System.out.println(e.toString());
+					e.printStackTrace();
 				}
 			}
 		}
@@ -93,12 +83,12 @@ public class DashCamera {
 //			
 //			NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
 			NIVision.IMAQdxGrab(currSession, frame, 1);
-			if(currSession == sessionfront){
-				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
-				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
-				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
-				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
-			}
+//			if(currSession == sessionfront){
+//				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
+//				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
+//				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
+//				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
+//			}
 			if (currSession == sessionback) {
 				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 1);
@@ -107,7 +97,7 @@ public class DashCamera {
 			CameraServer.getInstance().setImage(frame);
 
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 }
