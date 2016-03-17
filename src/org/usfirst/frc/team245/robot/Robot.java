@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team245.robot;
 
+import org.opencv.core.Core;
+
 import com.github.adambots.stronghold2016.arm.Arm;
 import com.github.adambots.stronghold2016.auton.AutonMain;
 import com.github.adambots.stronghold2016.auton.Barrier_ChevalDeFrise;
@@ -13,6 +15,9 @@ import com.github.adambots.stronghold2016.auton.Forward;
 import com.github.adambots.stronghold2016.auton.Left;
 import com.github.adambots.stronghold2016.auton.Right;
 import com.github.adambots.stronghold2016.auton.SuperRight;
+import com.github.adambots.stronghold2016.camera.AutoTarget;
+import com.github.adambots.stronghold2016.camera.Camera;
+import com.github.adambots.stronghold2016.camera.TargetingMain;
 import com.github.adambots.stronghold2016.dash.DashCamera;
 import com.github.adambots.stronghold2016.dash.DashStringPotentiometer;
 //import com.github.adambots.stronghold2016.camera.AutoTarget;
@@ -36,7 +41,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	static{
+		System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
+	}
 	Command autonomousCommand;
 	SendableChooser chooser;
 	Compressor compressor;
@@ -77,8 +84,10 @@ public class Robot extends IterativeRobot {
 		// Barrier activeB = (Barrier) barrierChooser.getSelected();
 		// SmartDashboard.putData("Barrier mode", barrierChooser);
 		// SmartDashboard.putBoolean("barrier working", activeB.running());
-		DashCamera.camerasInit();
+		
 		Actuators.getRingLight().set(true);
+//		DashCamera.camerasInit();
+//		Camera.init();
 
 	}
 
@@ -89,11 +98,12 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 //		Actuators.getRingLight().set(false);
+		TargetingMain.running = false;
 	}
 
 	public void disabledPeriodic() {
 		LiveWindow.run();
-		DashCamera.cameras(Gamepad.secondary.getX());
+//		DashCamera.cameras(Gamepad.secondary.getX());
 		SmartDashboard.putBoolean("Catapult limit switch", Sensors.getCatapultLimitSwitch().get());
 		SmartDashboard.putNumber("Left Encoder", Actuators.getLeftDriveMotor().getEncPosition());
 		SmartDashboard.putNumber("Right Encoder", Actuators.getRightDriveMotor().getEncPosition());
@@ -167,7 +177,9 @@ public class Robot extends IterativeRobot {
 		// TODO:TEST CODE
 
 		Actuators.teleopInit();
-
+		TargetingMain.init();
+		AutoTarget.init();
+		TargetingMain.running = true;
 	}
 
 	/**
@@ -175,6 +187,14 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
+		
+		
+		if(Gamepad.primary.getX()){
+			AutoTarget.centerTarget();
+		}
+		
+		
+		
 		DashStringPotentiometer.stringArmAngleMotorDash();
 		if (Gamepad.primary.getY()) {
 			Drive.drive(Gamepad.primary.getTriggers() / 2, Gamepad.primary.getLeftX() / 2);
@@ -200,7 +220,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Min Limit Switch", Sensors.getArmMinLimitSwitch());
 		SmartDashboard.putNumber("Left Encoder", Actuators.getLeftDriveMotor().getEncPosition());
 		SmartDashboard.putNumber("Right Encoder", Actuators.getRightDriveMotor().getEncPosition());
-		DashCamera.cameras(Gamepad.secondary.getX());
+//		DashCamera.cameras(Gamepad.secondary.getX());
 
 		// TODO: Check joystick mapping
 		// Scheduler.getInstance().run();
@@ -217,9 +237,9 @@ public class Robot extends IterativeRobot {
 		}
 
 		if (Gamepad.secondary.getY()) {
-			// Arm.climb(Gamepad.secondary.getY());
+			 Arm.climb(Gamepad.secondary.getY());
 		} else {
-			// Arm.climb(Gamepad.secondary.getRightY());
+			 Arm.climb(Gamepad.secondary.getRightY());
 		}
 
 		// TEST CODE
@@ -250,6 +270,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
-		DashCamera.cameras(Gamepad.secondary.getX());
+//		DashCamera.cameras(Gamepad.secondary.getX());
 	}
 }
