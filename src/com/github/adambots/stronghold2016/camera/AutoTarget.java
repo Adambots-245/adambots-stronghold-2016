@@ -17,7 +17,8 @@ public class AutoTarget {
 	private static final double MAX_CENTER_X = 320;
 	private static final double TARGET_CENTER_Y = 101;
 	private static final double MAX_CENTER_Y = 240;
-	private static final double THRESHOLD_ERROR = 10;
+	private static final double THRESHOLD_ERROR_X = 5;
+	private static final double THRESHOLD_ERROR_Y = 5;
 	private static final double DEFAULT_VALUE = -1;
 	
 	private static double centerX;
@@ -51,48 +52,24 @@ public class AutoTarget {
 	public static boolean centerTarget(){
 		getTargetData();
 		if(centerX != -1 && centerY != -1){
-			double currentX = centerX;
-			double errorX = TARGET_CENTER_X - currentX;
-			errorX /= MAX_CENTER_X;
-			System.out.println("errorX: " + errorX);
-			double kPX = 1;
-			boolean isAtTargetX = THRESHOLD_ERROR >= errorX;
-
-			double currentY = centerY;
-			double errorY = -TARGET_CENTER_Y + currentY;
-			errorY /= MAX_CENTER_Y;
+			boolean isAtTarget = false;
+			double errorX = centerX - TARGET_CENTER_X;
+			double errorY = TARGET_CENTER_Y - centerY;
 			
-			System.out.println("errorY: " + errorY);
-			double kPY = 1;
-			boolean isAtTargetY = THRESHOLD_ERROR >= errorY;
-
-			boolean isAtTarget = isAtTargetX && isAtTargetY;
-
-			if(isAtTarget){
+			boolean isYAligned = Math.abs(errorY) >= THRESHOLD_ERROR_Y;
+			boolean isXAligned = Math.abs(errorX) >= THRESHOLD_ERROR_X; 
+			if(isYAligned && isXAligned){
 				Drive.drive(Actuators.STOP_MOTOR);
-			}else if(isAtTargetX){
-				double speed = kPY*errorY;
-				speed = Math.max(0.2, speed);
-				Drive.drive(speed);
-			}else if(isAtTargetY){
-				double speed = kPX*errorX;
-				speed = Math.max(0.2, speed);
-				Drive.drive(0, speed);
+			}else if(isYAligned){
+				int turningSpeed = (errorX > 0)? 1:-1;
+				Drive.drive(0, turningSpeed);
 			}else{
-				//TODO: Test if you can adjust both x & y
-				//				double speedX = kPX*errorX*1/2;
-				//				double speedY = kPY*errorY*1/2;
-				//				Actuators.getRightDriveMotor().set(speedY-speedX);
-				//				Actuators.getLeftDriveMotor().set(speedY+speedX);
-				double speed = kPX*errorX;
-				Drive.drive(0, speed);
+				int speed = (errorY > 0)? 1:-1;
+				Drive.drive(speed);
 			}
-			
 			return isAtTarget;
 		}
-		
 		Drive.drive(Actuators.STOP_MOTOR);
-		
 		return false;
 		
 	}
