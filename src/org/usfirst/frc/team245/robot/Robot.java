@@ -179,7 +179,7 @@ public class Robot extends IterativeRobot {
 		Actuators.teleopInit();
 		TargetingMain.init();
 		AutoTarget.init();
-		TargetingMain.running = false;
+		TargetingMain.running = true;
 	}
 
 	/**
@@ -189,9 +189,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		
-//		if(Gamepad.primary.getX()){
-//			AutoTarget.centerTarget();
-//		}
+		if(Gamepad.primary.getX()){
+			AutoTarget.centerTarget();
+		}
 		
 		
 		
