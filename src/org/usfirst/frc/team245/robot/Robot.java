@@ -16,6 +16,7 @@ import com.github.adambots.stronghold2016.auton.Left;
 import com.github.adambots.stronghold2016.auton.Right;
 import com.github.adambots.stronghold2016.auton.SuperRight;
 import com.github.adambots.stronghold2016.camera.AutoTarget;
+import com.github.adambots.stronghold2016.camera.Camera;
 import com.github.adambots.stronghold2016.camera.TargetingMain;
 import com.github.adambots.stronghold2016.dash.DashCamera;
 import com.github.adambots.stronghold2016.dash.DashStringPotentiometer;
@@ -86,6 +87,7 @@ public class Robot extends IterativeRobot {
 		
 		Actuators.getRingLight().set(true);
 //		DashCamera.camerasInit();
+//		Camera.init();
 
 	}
 
@@ -96,6 +98,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 //		Actuators.getRingLight().set(false);
+		TargetingMain.running = false;
 	}
 
 	public void disabledPeriodic() {
@@ -176,6 +179,7 @@ public class Robot extends IterativeRobot {
 		Actuators.teleopInit();
 		TargetingMain.init();
 		AutoTarget.init();
+		TargetingMain.running = true;
 	}
 
 	/**
@@ -183,6 +187,14 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
+		
+		
+		if(Gamepad.primary.getX()){
+			AutoTarget.centerTarget();
+		}
+		
+		
+		
 		DashStringPotentiometer.stringArmAngleMotorDash();
 		if (Gamepad.primary.getY()) {
 			Drive.drive(Gamepad.primary.getTriggers() / 2, Gamepad.primary.getLeftX() / 2);
@@ -225,9 +237,9 @@ public class Robot extends IterativeRobot {
 		}
 
 		if (Gamepad.secondary.getY()) {
-			// Arm.climb(Gamepad.secondary.getY());
+			 Arm.climb(Gamepad.secondary.getY());
 		} else {
-			// Arm.climb(Gamepad.secondary.getRightY());
+			 Arm.climb(Gamepad.secondary.getRightY());
 		}
 
 		// TEST CODE

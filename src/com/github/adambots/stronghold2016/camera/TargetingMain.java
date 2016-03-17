@@ -1,9 +1,12 @@
 package com.github.adambots.stronghold2016.camera;
 
 public class TargetingMain extends Thread{
+	public static boolean running = false;
 	public static void init(){
 		(new Thread( new TargetingMain())).start();
 	}
+	
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -15,12 +18,18 @@ public class TargetingMain extends Thread{
 			e.printStackTrace();
 		}
 //		Camera.openStream();
-//		while(true){
+		while(running){
 			Target target = Camera.getTarget();
 			if(target != null){
+				System.out.println();
+				System.out.println(target.getCenterX() + " "+ target.getCenterY());
+				System.out.println(target.getHeight());
+				System.out.println(target.getWidth());
 				target.publishTarget();
 			}
-//		}
+		}
+		
+		
 		Camera.closeStream();
 	}
 	@Override
