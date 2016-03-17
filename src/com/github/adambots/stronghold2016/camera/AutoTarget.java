@@ -72,9 +72,11 @@ public class AutoTarget {
 				Drive.drive(Actuators.STOP_MOTOR);
 			}else if(isAtTargetX){
 				double speed = kPY*errorY;
+				speed = Math.max(0.2, speed);
 				Drive.drive(speed);
 			}else if(isAtTargetY){
 				double speed = kPX*errorX;
+				speed = Math.max(0.2, speed);
 				Drive.drive(0, speed);
 			}else{
 				//TODO: Test if you can adjust both x & y
