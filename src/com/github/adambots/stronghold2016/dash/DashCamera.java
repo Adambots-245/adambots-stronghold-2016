@@ -13,12 +13,13 @@ import com.ni.vision.NIVision.ROI;
 import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class DashCamera {
-	static int currSession;
-	static int sessionfront;
-	static int sessionback;
-	static Image frame;
+	private static int currSession;
+	private static int sessionfront;
+	private static int sessionback;
+	private static Image frame;
 
 	public static void camerasInit() {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -26,13 +27,13 @@ public class DashCamera {
 			sessionfront = NIVision.IMAQdxOpenCamera("cam0",
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception e) {
-			System.out.println("cam0 "+ e.toString());
+			e.printStackTrace();
 		}
 		try {
 			sessionback = NIVision.IMAQdxOpenCamera("cam1",
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception e) {
-			System.out.println("cam1 "+ e.toString());
+			e.printStackTrace();
 		}
 		
 		
@@ -42,7 +43,7 @@ public class DashCamera {
 		try {
 			NIVision.IMAQdxConfigureGrab(currSession);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 
@@ -73,7 +74,7 @@ public class DashCamera {
 					currSession = sessionfront;
 					NIVision.IMAQdxConfigureGrab(currSession);
 				} catch (Exception e) {
-					System.out.println(e.toString());
+					e.printStackTrace();
 				}
 			}
 		}
@@ -83,21 +84,16 @@ public class DashCamera {
 //			NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
 			NIVision.IMAQdxGrab(currSession, frame, 1);
 			if(currSession == sessionfront){
-//				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
-//				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
+				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
+				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
 			}
-			if (currSession == sessionback) {
-				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
-				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 1);
-				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 1);
-			}
-
+		
 			CameraServer.getInstance().setImage(frame);
 
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 }

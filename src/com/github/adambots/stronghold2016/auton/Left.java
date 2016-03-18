@@ -8,7 +8,7 @@ import com.github.adambots.stronghold2016.drive.Drive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Left {
-	static double turnamountL = 40, turnamountR = 40, driveDistance = 48, finishDistance = 60, allotedError = 50;
+	static double turnamountL = 40, turnamountR = 40, driveDistance = 48, finishDistance = 60, allotedError = 60;
 	static Position_Optimizer optimizer;
 	static boolean turned = false, iPosition = false, turned2 = false, finished = false, reset = false;
 	static int iteration = 0;

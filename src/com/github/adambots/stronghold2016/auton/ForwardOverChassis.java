@@ -40,6 +40,9 @@ public class ForwardOverChassis extends Command {
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
+		Actuators.getLeftDriveMotor().setPosition(0);
+		Actuators.getRightDriveMotor().setPosition(0);
+		Drive.drive(0);
 
 	}
 

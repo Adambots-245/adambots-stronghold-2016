@@ -1,23 +1,11 @@
 
 package org.usfirst.frc.team245.robot;
 
+import org.opencv.core.Core;
+
 import com.github.adambots.stronghold2016.arm.Arm;
-import com.github.adambots.stronghold2016.auton.ForwardOverChassis;
-import com.github.adambots.stronghold2016.auton.ForwardToRamp;
-import com.github.adambots.stronghold2016.auton.AutonMain;
-import com.github.adambots.stronghold2016.auton.Barrier_ChevalDeFrise;
-import com.github.adambots.stronghold2016.auton.Barrier_Drawbridge;
-import com.github.adambots.stronghold2016.auton.Barrier_RoughTerrain;
-import com.github.adambots.stronghold2016.auton.Default;
-import com.github.adambots.stronghold2016.auton.FarLeft;
-import com.github.adambots.stronghold2016.auton.FarRight;
-import com.github.adambots.stronghold2016.auton.Forward;
-import com.github.adambots.stronghold2016.auton.Left;
-import com.github.adambots.stronghold2016.auton.Right;
-import com.github.adambots.stronghold2016.auton.SuperRight;
+import com.github.adambots.stronghold2016.auton.*;
 import com.github.adambots.stronghold2016.camera.AutoTarget;
-import com.github.adambots.stronghold2016.camera.TargetingMain;
-import com.github.adambots.stronghold2016.dash.AutonShootSpyBox;
 import com.github.adambots.stronghold2016.dash.DashCamera;
 import com.github.adambots.stronghold2016.dash.DashStringPotentiometer;
 //import com.github.adambots.stronghold2016.camera.AutoTarget;
@@ -41,7 +29,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	static{
+		System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
+	}
 	Command autonomousCommand;
 	SendableChooser chooser;
 	Compressor compressor;
@@ -58,6 +48,11 @@ public class Robot extends IterativeRobot {
 		// barrierChooser = new SendableChooser();
 		compressor = new Compressor();
 		chooser.addDefault("None", new Default());;
+		chooser.addObject("Left 1 Over Defense", new LeftOverChassis());
+		chooser.addObject("Left 2 Over Defense", new FarLeftOverChassis());
+		chooser.addObject("Right 1 Over Defense", new RightOverChassis());
+		chooser.addObject("Right 2 Over Defense", new FarRightOverChassis());
+		chooser.addObject("Right 3 Over Defense", new SuperRightOverChassis());
 		chooser.addObject("Forward Over Defense", new ForwardOverChassis());
 		chooser.addObject("Forward To Ramp", new ForwardToRamp());
 		chooser.addObject("Spy Shoot", new AutonShootSpyBox());
@@ -79,9 +74,11 @@ public class Robot extends IterativeRobot {
 		// Barrier activeB = (Barrier) barrierChooser.getSelected();
 		// SmartDashboard.putData("Barrier mode", barrierChooser);
 		// SmartDashboard.putBoolean("barrier working", activeB.running());
-		DashCamera.camerasInit();
+		
 		Actuators.getRingLight().set(true);
-		TargetingMain.init();
+//		Camera.init();
+
+		DashCamera.camerasInit();
 
 	}
 
@@ -91,7 +88,8 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
-		Actuators.getRingLight().set(true);
+//		Actuators.getRingLight().set(false);
+//		TargetingMain.running = false;
 	}
 
 	public void disabledPeriodic() {
@@ -123,6 +121,12 @@ public class Robot extends IterativeRobot {
 	
 
 		// schedule the autonomous command (example)
+//		 if (autonomousCommand != null)
+//		 autonomousCommand.start();
+//		Actuators.teleopInit();
+//		TargetingMain.init();
+//		AutoTarget.init();
+//		TargetingMain.running = true;
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -132,8 +136,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		// Forward.go();
-		autonomousCommand.start();
+		 autonomousCommand.start();
 		// AutonMain.test();
 
 	}
@@ -158,9 +161,7 @@ public class Robot extends IterativeRobot {
 		// pastShift = false;
 
 		// TODO:TEST CODE
-
-		Actuators.teleopInit();
-
+//		TargetingMain.running = false;
 	}
 
 	/**
@@ -168,16 +169,26 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-		DashStringPotentiometer.stringArmAngleMotorDash();
-		if (Gamepad.primary.getY()) {
-			Drive.drive(Gamepad.primary.getTriggers() / 2, Gamepad.primary.getLeftX() / 2);
-		} else {
-			Drive.drive(Gamepad.primary.getTriggers(), Gamepad.primary.getLeftX());
+		
+		
+		if(Gamepad.primary.getX()){
+			AutoTarget.centerTarget();
+		}else{
+			if (Gamepad.primary.getY()) {
+				Drive.drive(Gamepad.primary.getTriggers() / 2, Gamepad.primary.getLeftX() / 2);
+			} else {
+				Drive.drive(Gamepad.primary.getTriggers(), Gamepad.primary.getLeftX());
+			}
 		}
+		
+		
+		
+		DashStringPotentiometer.stringArmAngleMotorDash();
+		
 		// Drive.drive(Gamepad.primary.getTriggers(),
 		// Gamepad.primary.getLeftX());
 
-		Drive.drive(Gamepad.primary.getTriggers(), Gamepad.primary.getLeftX());
+		
 		if (Gamepad.primary.getB() && pastShift == false) {
 			Drive.shift();
 			pastShift = Gamepad.primary.getB();
@@ -238,6 +249,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("Gear: ", gear);
 	}
 
+	@Override
+	public void testInit() {
+		// TODO Auto-generated method stub
+		super.testInit();
+	}
 	/**
 	 * This function is called periodically during test mode
 	 */

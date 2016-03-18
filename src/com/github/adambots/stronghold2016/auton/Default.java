@@ -2,7 +2,7 @@ package com.github.adambots.stronghold2016.auton;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Default extends Command {
+public class Default extends Command{
 
 	@Override
 	protected void initialize() {
