@@ -56,8 +56,8 @@ public class DashCamera {
 //		Line right = new Line(upRight, downRight);
 //		Line bottom = new Line(downRight, downLeft);
 //		Line left = new Line(downLeft, upLeft);
-		Rect rect = new Rect(5, 210, 140, 100);
-		Rect rect2 = new Rect(4, 209, 142, 102);
+		Rect rect = new Rect(150, 210, 140, 100);
+		Rect rect2 = new Rect(149, 209, 142, 102);
 		if (toggle) {
 			if (currSession != 0 && currSession == sessionfront) {
 				try {
