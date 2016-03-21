@@ -29,7 +29,7 @@ public class Shooter {
 	 * Stops the loading the shooter
 	 */
 	public static void stopLoadShooter() {
-		Actuators.getArmAngleMotor().set(Actuators.STOP_MOTOR);
+		Actuators.getCatapultMotor().set(Actuators.STOP_MOTOR);
 //		Actuators.getArmAngleMotor().disable();
 	}
 

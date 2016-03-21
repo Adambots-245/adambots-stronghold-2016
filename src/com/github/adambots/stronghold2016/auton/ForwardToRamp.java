@@ -15,6 +15,7 @@ public class ForwardToRamp extends Command {
 	static boolean reset = false, isDone;
 	static Timer timer = new Timer();
 	int time = 0;
+
 	public ForwardToRamp() {
 		// TODO Auto-generated constructor stub
 	}
@@ -46,38 +47,39 @@ public class ForwardToRamp extends Command {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-				// optimizer.forwardClassCode(finishDistance);
+		// optimizer.forwardClassCode(finishDistance);
 
-				// double done = Actuators.getLeftDriveMotor().getError();
-				if (!Actuators.getDriveShiftPneumatic().get()) {
-					Actuators.getDriveShiftPneumatic().set(true);
-				}
-				if (!Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive()) {
-					timer.scheduleAtFixedRate(new TimerTask() {
-						public void run() {
-							if (time < 10) {
-								Drive.drive(.5);
-							} else {
-								Drive.drive(0);
-							}
-							time++;
-						}
-					}, 20, 20);
-					return;
-				}
-				/*
-				 * if (Sensors.getArmMinLimitSwitch().get()) {
-				 * Actuators.getArmAngleMotor().set(0.35); } else {
-				 * Actuators.getArmAngleMotor().set(0); }
-				 */
+		// double done = Actuators.getLeftDriveMotor().getError();
+		if (!Actuators.getDriveShiftPneumatic().get()) {
+			Actuators.getDriveShiftPneumatic().set(true);
+		}
+//		if (!Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive()) {
+//			timer.scheduleAtFixedRate(new TimerTask() {
+//				public void run() {
+//					if (time < 10) {
+//						Drive.drive(.5);
+//					} else {
+//						Drive.drive(0);
+//					}
+//					time++;
+//				}
+//			}, 20, 20);
+//			return;
+//		}
+		/*
+		 * if (Sensors.getArmMinLimitSwitch().get()) {
+		 * Actuators.getArmAngleMotor().set(0.35); } else {
+		 * Actuators.getArmAngleMotor().set(0); }
+		 */
 
-				Drive.driveWithPID(finishDistance, finishDistance);
-				if (Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive())
-					Actuators.getLeftDriveMotor().setEncPosition(Actuators.getRightDriveMotor().getEncPosition());
-				if (!Actuators.getRightDriveMotor().isAlive() && Actuators.getLeftDriveMotor().isAlive())
-					Actuators.getRightDriveMotor().setEncPosition(Actuators.getLeftDriveMotor().getEncPosition());
-				SmartDashboard.putNumber("LEFT_ERROR", Actuators.getLeftDriveMotor().getError());
-				SmartDashboard.putNumber("RIGHT_ERROR", Actuators.getRightDriveMotor().getError());
+		Drive.driveWithPID(finishDistance, finishDistance);
+//		if (Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive())
+//			Actuators.getLeftDriveMotor().setEncPosition(Actuators.getRightDriveMotor().getEncPosition());
+//		if (!Actuators.getRightDriveMotor().isAlive() && Actuators.getLeftDriveMotor().isAlive())
+//			Actuators.getRightDriveMotor().setEncPosition(Actuators.getLeftDriveMotor().getEncPosition());
+		SmartDashboard.putNumber("LEFT_ERROR", Actuators.getLeftDriveMotor().getError());
+		SmartDashboard.putNumber("RIGHT_ERROR", Actuators.getRightDriveMotor().getError());
+
 	}
 
 	@Override
@@ -88,9 +90,9 @@ public class ForwardToRamp extends Command {
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		timer.cancel();
 		Drive.drive(0);
+		// TODO Auto-generated method stub
 
 	}
 

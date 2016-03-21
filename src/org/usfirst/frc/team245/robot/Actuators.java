@@ -72,6 +72,8 @@ public class Actuators {
 	private static Solenoid winchRatchetPneumatic;
 	
 	private static Solenoid ringLight;
+	private static Solenoid underGlow1;
+	private static Solenoid underGlow2;
 
 	/**
 	 * Initializes all actuators
@@ -113,6 +115,9 @@ public class Actuators {
 		driveShiftPneumatic = new Solenoid(0);
 		winchRatchetPneumatic = new Solenoid(1);
 		ringLight = new Solenoid(3);
+		underGlow1 = new Solenoid(4);
+		underGlow2 = new Solenoid(5);
+		
 	}
 	
 	/**
@@ -203,6 +208,14 @@ public class Actuators {
 	 */
 	public static Solenoid getRingLight() {
 		return ringLight;
+	}
+	
+	public static Solenoid getUnderGlow1() {
+		return underGlow1;
+	}
+	
+	public static Solenoid getUnderGlow2() {
+		return underGlow2;
 	}
 
 	private static CANTalon initCANTalon(CANTalon talon, FeedbackDevice device, boolean reverseSensor, int codesPerRev, int acceptableErr, 

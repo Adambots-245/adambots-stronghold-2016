@@ -55,19 +55,19 @@ public class ForwardOverChassis extends Command {
 		if (!Actuators.getDriveShiftPneumatic().get()) {
 			Actuators.getDriveShiftPneumatic().set(true);
 		}
-		if (!Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive()) {
-			timer.scheduleAtFixedRate(new TimerTask() {
-				public void run() {
-					if (time < 10) {
-						Drive.drive(.5);
-					} else {
-						Drive.drive(0);
-					}
-					time++;
-				}
-			}, 20, 20);
-			return;
-		}
+//		if (!Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive()) {
+//			timer.scheduleAtFixedRate(new TimerTask() {
+//				public void run() {
+//					if (time < 10) {
+//						Drive.drive(.5);
+//					} else {
+//						Drive.drive(0);
+//					}
+//					time++;
+//				}
+//			}, 20, 20);
+//			return;
+//		}
 		/*
 		 * if (Sensors.getArmMinLimitSwitch().get()) {
 		 * Actuators.getArmAngleMotor().set(0.35); } else {
@@ -75,10 +75,10 @@ public class ForwardOverChassis extends Command {
 		 */
 
 		Drive.driveWithPID(finishDistance, finishDistance);
-		if (Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive())
-			Actuators.getLeftDriveMotor().setEncPosition(Actuators.getRightDriveMotor().getEncPosition());
-		if (!Actuators.getRightDriveMotor().isAlive() && Actuators.getLeftDriveMotor().isAlive())
-			Actuators.getRightDriveMotor().setEncPosition(Actuators.getLeftDriveMotor().getEncPosition());
+//		if (Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive())
+//			Actuators.getLeftDriveMotor().setEncPosition(Actuators.getRightDriveMotor().getEncPosition());
+//		if (!Actuators.getRightDriveMotor().isAlive() && Actuators.getLeftDriveMotor().isAlive())
+//			Actuators.getRightDriveMotor().setEncPosition(Actuators.getLeftDriveMotor().getEncPosition());
 		SmartDashboard.putNumber("LEFT_ERROR", Actuators.getLeftDriveMotor().getError());
 		SmartDashboard.putNumber("RIGHT_ERROR", Actuators.getRightDriveMotor().getError());
 
