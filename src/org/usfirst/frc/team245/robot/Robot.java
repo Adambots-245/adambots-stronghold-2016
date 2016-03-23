@@ -94,7 +94,11 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		LiveWindow.run();
-		DashCamera.cameras(Gamepad.secondary.getX());
+		if (Gamepad.secondary.getX()){
+			DashCamera.cameras(Gamepad.secondary.getX());
+		}else{
+			DashCamera.cameras(Gamepad.secondary.getX());
+		}
 		SmartDashboard.putBoolean("Catapult limit switch", !Sensors.getCatapultLimitSwitch().get());
 		SmartDashboard.putNumber("Left Encoder", Actuators.getLeftDriveMotor().getEncPosition());
 		SmartDashboard.putNumber("Right Encoder", Actuators.getRightDriveMotor().getEncPosition());
