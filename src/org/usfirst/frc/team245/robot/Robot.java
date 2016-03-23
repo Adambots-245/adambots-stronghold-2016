@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 		chooser = new SendableChooser();
 		// barrierChooser = new SendableChooser();
 		compressor = new Compressor();
-		chooser.addDefault("None", new Default());;
+		chooser.addDefault("None", new DoNothing());
 		chooser.addObject("Left 1 Over Defense", new LeftOverChassis());
 		chooser.addObject("Left 2 Over Defense", new FarLeftOverChassis());
 		chooser.addObject("Right 1 Over Defense", new RightOverChassis());
@@ -140,7 +140,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		 autonomousCommand.start();
+//		 autonomousCommand.start();
 		// AutonMain.test();
 
 	}
@@ -173,7 +173,8 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-		
+		Actuators.getUnderGlow1().set(true);
+		Actuators.getUnderGlow1().set(true);
 		
 		if(Gamepad.primary.getX()){
 			AutoTarget.centerTarget();
@@ -234,11 +235,11 @@ public class Robot extends IterativeRobot {
 		// *****************************************************************
 
 		// ***************************************************************************
-		if (Gamepad.primary.getBack() && !Gamepad.primary.getA()) {
+		if (Gamepad.primary.getBack()) {
 			Shooter.stopLoadShooter();
 		}
 		Shooter.shoot(Gamepad.primary.getA());
-		if (Gamepad.primary.getBack() && !Gamepad.primary.getA()) {
+		if (Gamepad.primary.getBack()) {
 			Shooter.stopLoadShooter();
 		}
 
