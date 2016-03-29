@@ -13,7 +13,7 @@ import com.github.adambots.stronghold2016.drive.Drive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ForwardOverChassis extends Command {
-	static double finishDistance = 200, allotedError = 60;
+	static double finishDistance = -210, allotedError = 60;
 	static boolean reset = false, isDone;
 	static Timer timer = new Timer();
 	int time = 0;
@@ -85,7 +85,7 @@ public class ForwardOverChassis extends Command {
 	}
 
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinished() {                                                                             
 		// TODO Auto-generated method stub
 		return false;
 	}
