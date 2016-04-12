@@ -6,33 +6,37 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.usfirst.frc.team245.robot.Actuators;
+import org.usfirst.frc.team245.robot.Gamepad;
 import org.usfirst.frc.team245.robot.Sensors;
 
 import com.github.adambots.stronghold2016.drive.Drive;
+import com.github.adambots.stronghold2016.shooter.Shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ForwardOverChassis extends Command {
+public class ForwardShoot extends Command {
 	static double finishDistance = -210, allotedError = 60;
 	static boolean reset = false, isDone;
 	static Timer timer = new Timer();
+	static int errorThresh = 120;
+	
 	int time = 0;
 
-	public ForwardOverChassis() {
+	public ForwardShoot() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ForwardOverChassis(String name) {
+	public ForwardShoot(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ForwardOverChassis(double timeout) {
+	public ForwardShoot(double timeout) {
 		super(timeout);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ForwardOverChassis(String name, double timeout) {
+	public ForwardShoot(String name, double timeout) {
 		super(name, timeout);
 		// TODO Auto-generated constructor stub
 	}
@@ -73,6 +77,10 @@ public class ForwardOverChassis extends Command {
 		 * Actuators.getArmAngleMotor().set(0.35); } else {
 		 * Actuators.getArmAngleMotor().set(0); }
 		 */
+		if((Math.abs(Actuators.getLeftDriveMotor().getError())) <= errorThresh || (Math.abs(Actuators.getRightDriveMotor().getError()) <= errorThresh)) {
+			Shooter.shoot(true);
+		}
+		
 
 		Drive.driveWithPID(finishDistance, finishDistance);
 //		if (Actuators.getRightDriveMotor().isAlive() && !Actuators.getLeftDriveMotor().isAlive())
@@ -92,6 +100,7 @@ public class ForwardOverChassis extends Command {
 
 	@Override
 	protected void end() {
+		Shooter.shoot(true);
 		timer.cancel();
 		Drive.drive(0);
 		// TODO Auto-generated method stub

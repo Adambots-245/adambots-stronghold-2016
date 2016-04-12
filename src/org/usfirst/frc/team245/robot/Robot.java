@@ -54,6 +54,7 @@ public class Robot extends IterativeRobot {
 //		chooser.addObject("Right 2 Over Defense", new FarRightOverChassis());
 //		chooser.addObject("Right 3 Over Defense", new SuperRightOverChassis());
 		chooser.addObject("Forward Over Defense", new ForwardOverChassis());
+		chooser.addObject("Forward Shooting", new ForwardShoot());
 		chooser.addObject("Forward To Ramp", new ForwardToRamp());
 		chooser.addObject("Spy Shoot", new AutonShootSpyBox());
 		// TODO: Uncomment inits
@@ -64,7 +65,7 @@ public class Robot extends IterativeRobot {
 		AutoTarget.init();//does not contain anything
 
 		SmartDashboard.putData("Auto mode", chooser);
-
+		//SmartDashboard.putData("Current", )
 		/*
 		 * barrierChooser.addDefault("ChevalDeFrise", new
 		 * Barrier_ChevalDeFrise()); barrierChooser.addObject("Drawbridge", new

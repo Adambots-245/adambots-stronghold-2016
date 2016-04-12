@@ -24,9 +24,9 @@ public class Forward {
 		// optimizer.forwardClassCode(finishDistance);
 
 		// double done = Actuators.getLeftDriveMotor().getError();
-		if(!Actuators.getDriveShiftPneumatic().get()){
-			Actuators.getDriveShiftPneumatic().set(true);
-		}
+//		if(!Actuators.getDriveShiftPneumatic().get()){
+//			Actuators.getDriveShiftPneumatic().set(true);
+//		}
 		/*if (Sensors.getArmMinLimitSwitch().get()) {
 			Actuators.getArmAngleMotor().set(0.35);
 		} else {
