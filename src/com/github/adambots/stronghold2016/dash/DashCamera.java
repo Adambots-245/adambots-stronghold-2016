@@ -24,13 +24,13 @@ public class DashCamera {
 	public static void camerasInit() {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		try {
-			sessionfront = NIVision.IMAQdxOpenCamera("cam0",
+			sessionfront = NIVision.IMAQdxOpenCamera("cam1",
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
-			sessionback = NIVision.IMAQdxOpenCamera("cam1",
+			sessionback = NIVision.IMAQdxOpenCamera("cam0",
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,8 +56,8 @@ public class DashCamera {
 //		Line right = new Line(upRight, downRight);
 //		Line bottom = new Line(downRight, downLeft);
 //		Line left = new Line(downLeft, upLeft);
-		Rect rect = new Rect(400, 180, 190, 100);
-		Rect rect2 = new Rect(400, 180, 192, 102);
+		Rect rect = new Rect(170, 320, 190, 100);
+		Rect rect2 = new Rect(176, 319, 192, 102);
 		if (toggle) {
 			if (currSession != 0 && currSession == sessionfront) {
 				try {
@@ -94,6 +94,7 @@ public class DashCamera {
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
 				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
 				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
+
 			}
 			CameraServer.getInstance().setImage(frame);
 
