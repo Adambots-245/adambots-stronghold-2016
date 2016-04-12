@@ -29,9 +29,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-//	static{
-//		System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
-//	}
+	static{
+		System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
+	}
 	Command autonomousCommand;
 	SendableChooser chooser;
 	Compressor compressor;
@@ -43,28 +43,20 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		try{
 		Actuators.init();
 		chooser = new SendableChooser();
 		// barrierChooser = new SendableChooser();
 		compressor = new Compressor();
-		chooser.addDefault("None", new DoNothing());
-//		chooser.addObject("Left 1 Over Defense", new LeftOverChassis());
-//		chooser.addObject("Left 2 Over Defense", new FarLeftOverChassis());
-//		chooser.addObject("Right 1 Over Defense", new RightOverChassis());
-//		chooser.addObject("Right 2 Over Defense", new FarRightOverChassis());
-//		chooser.addObject("Right 3 Over Defense", new SuperRightOverChassis());
-		chooser.addObject("Forward Over Defense", new ForwardOverChassis());
-		chooser.addObject("Forward Shooting", new ForwardShoot());
-		chooser.addObject("Forward To Ramp", new ForwardToRamp());
-		chooser.addObject("Spy Shoot", new AutonShootSpyBox());
+		
 		// TODO: Uncomment inits
 		Sensors.init();
 		Shooter.init();
 
 		Drive.init();// does not have anything
-		AutoTarget.init();//does not contain anything
+		//AutoTarget.init();//does not contain anything
 
-		SmartDashboard.putData("Auto mode", chooser);
+		
 		//SmartDashboard.putData("Current", )
 		/*
 		 * barrierChooser.addDefault("ChevalDeFrise", new
@@ -78,8 +70,29 @@ public class Robot extends IterativeRobot {
 		
 		Actuators.getRingLight().set(true);
 //		Camera.init();
-
+		
+		
+		System.out.println("Finished HW Init");
+		
+		chooser.addObject("None", new DoNothing());
+//		chooser.addObject("Left 1 Over Defense", new LeftOverChassis());
+//		chooser.addObject("Left 2 Over Defense", new FarLeftOverChassis());
+//		chooser.addObject("Right 1 Over Defense", new RightOverChassis());
+//		chooser.addObject("Right 2 Over Defense", new FarRightOverChassis());
+//		chooser.addObject("Right 3 Over Defense", new SuperRightOverChassis());
+		chooser.addDefault("Forward Over Defense", new ForwardOverChassis());
+		chooser.addObject("Forward Shooting", new ForwardShoot());
+		chooser.addObject("Forward To Ramp", new ForwardToRamp());
+		chooser.addObject("Spy Shoot", new AutonShootSpyBox());
+		chooser.addObject("Delay Forward" + DelayForward.delay+ " Seconds", new DelayForward());
+		SmartDashboard.putData("Auto mode", chooser);
+		
+		System.out.println("Finished Sendable Chooser Init");
 		DashCamera.camerasInit();
+		}catch (Exception e){
+			System.out.println("Something went wrong in init");
+		}
+		System.out.println("Finished ALL of Init");
 
 	}
 
@@ -100,6 +113,7 @@ public class Robot extends IterativeRobot {
 		}else{
 			DashCamera.cameras(Gamepad.secondary.getX());
 		}
+		SmartDashboard.putBoolean("Pressure Switch", compressor.getPressureSwitchValue());
 		SmartDashboard.putBoolean("Catapult limit switch", !Sensors.getCatapultLimitSwitch().get());
 		SmartDashboard.putNumber("Left Encoder", Actuators.getLeftDriveMotor().getEncPosition());
 		SmartDashboard.putNumber("Right Encoder", Actuators.getRightDriveMotor().getEncPosition());
@@ -119,7 +133,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		Actuators.getLeftDriveMotor().setEncPosition(0);
 		Actuators.getRightDriveMotor().setEncPosition(0);
-		 autonomousCommand = (Command) chooser.getSelected();
+		autonomousCommand = (Command) chooser.getSelected();
+		
 		Actuators.teleopInit();
 
 		
@@ -140,6 +155,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+		SmartDashboard.getDouble("Average Drive Current", Drive.averageDriveCurrent());
 		Scheduler.getInstance().run();
 //		 autonomousCommand.start();
 		// AutonMain.test();
@@ -147,7 +163,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	private boolean pastShift;
-	private boolean toggled;
+	//private boolean toggled;
 
 	public void teleopInit() {
 
@@ -174,6 +190,8 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
+		SmartDashboard.putBoolean("Pressure Switch", compressor.getPressureSwitchValue());
+		SmartDashboard.putNumber("Average Drive Current", Drive.averageDriveCurrent());
 		Actuators.getUnderGlow1().set(true);
 		Actuators.getUnderGlow1().set(true);
 		
@@ -266,5 +284,7 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 		DashCamera.cameras(Gamepad.secondary.getX());
+		SmartDashboard.putBoolean("Pressure Switch", compressor.getPressureSwitchValue());
 	}
+	
 }

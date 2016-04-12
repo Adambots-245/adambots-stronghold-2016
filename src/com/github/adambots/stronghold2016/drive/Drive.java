@@ -1,6 +1,7 @@
 package com.github.adambots.stronghold2016.drive;
 
 import org.usfirst.frc.team245.robot.Gamepad;
+import org.usfirst.frc.team245.robot.Sensors;
 
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,9 +13,9 @@ import org.usfirst.frc.team245.robot.Actuators;
  *
  */
 public class Drive {
-	
+	private static double current;
 	private static final double INCHES_PER_REV = 8.25 * Math.PI;
-
+	private static double turnScale = 0.9;
 	/**
 	 * Initializes all drive (currently does nothing)
 	 */
@@ -32,9 +33,9 @@ public class Drive {
 		Actuators.getLeftDriveMotor().changeControlMode(TalonControlMode.PercentVbus);
 		Actuators.getRightDriveMotor().changeControlMode(TalonControlMode.PercentVbus);
 		
-		double leftSpeed = Math.min(Actuators.MAX_MOTOR_SPEED, speed - turningSpeed);
+		double leftSpeed = Math.min(Actuators.MAX_MOTOR_SPEED, speed - turnScale*turningSpeed);
 		leftSpeed = Math.max(Actuators.MIN_MOTOR_SPEED, leftSpeed);
-		double rightSpeed = Math.min(Actuators.MAX_MOTOR_SPEED, speed + turningSpeed);
+		double rightSpeed = Math.min(Actuators.MAX_MOTOR_SPEED, speed + turnScale*turningSpeed);
 		rightSpeed = Math.max(Actuators.MIN_MOTOR_SPEED, rightSpeed);
 		
 		Actuators.getLeftDriveMotor().set(leftSpeed);
@@ -88,6 +89,9 @@ public class Drive {
 		}
 		
 	}
-	
+	public static double averageDriveCurrent()	{
+		current = (Actuators.getLeftDriveMotor().getOutputCurrent() + Actuators.getLeftDriveMotor2().getOutputCurrent() +Actuators.getRightDriveMotor().getOutputCurrent() + Actuators.getRightDriveMotor2().getOutputCurrent())/4;
+		return current;
+	}
 }
 
