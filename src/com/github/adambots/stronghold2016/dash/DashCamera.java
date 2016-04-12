@@ -56,8 +56,8 @@ public class DashCamera {
 //		Line right = new Line(upRight, downRight);
 //		Line bottom = new Line(downRight, downLeft);
 //		Line left = new Line(downLeft, upLeft);
-		Rect rect = new Rect(170, 210, 190, 100);
-		Rect rect2 = new Rect(169, 209, 192, 102);
+		Rect rect = new Rect(400, 180, 190, 100);
+		Rect rect2 = new Rect(400, 180, 192, 102);
 		if (toggle) {
 			if (currSession != 0 && currSession == sessionfront) {
 				try {
@@ -84,12 +84,17 @@ public class DashCamera {
 //			NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
 			NIVision.IMAQdxGrab(currSession, frame, 1);
 			if(currSession == sessionfront){
-				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
-				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
+//				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
+//				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
+//				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
+//				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
+			}
+			if(currSession == sessionback){
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect2, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 10);
+				NIVision.imaqFlip(frame, frame, FlipAxis.HORIZONTAL_AXIS);
+				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
 			}
-		
 			CameraServer.getInstance().setImage(frame);
 
 		} catch (Exception e) {

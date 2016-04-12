@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ForwardToRamp extends Command {
-	static double finishDistance = 48, allotedError = 60;
+	static double finishDistance = -48, allotedError = 60;
 	static boolean reset = false, isDone;
 	static Timer timer = new Timer();
 	int time = 0;

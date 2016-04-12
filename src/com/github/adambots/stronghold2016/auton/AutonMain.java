@@ -83,7 +83,7 @@ public class AutonMain {
 		  Actuators.getRightDriveMotor().changeControlMode(TalonControlMode.
 		  Position); Actuators.getRightDriveMotor().set(testTarget);
 		   */
-		 Left.go();
+//		 Left.go();
 		 //Actuators.getLeftDriveMotor().enable();
 		 //Actuators.getRightDriveMotor().enable();
 		 

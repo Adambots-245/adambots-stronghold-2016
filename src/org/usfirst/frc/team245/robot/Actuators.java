@@ -84,19 +84,23 @@ public class Actuators {
 		rightDriveMotor = initCANTalon(rightDriveMotor, FeedbackDevice.QuadEncoder, RIGHT_DRIVE_REVERSE_SENSOR, 
 				CODES_PER_REV, DRIVE_MOTOR_ACCEPTABLE_ERROR, RIGHT_DRIVE_KP, RIGHT_DRIVE_KI, RIGHT_DRIVE_KD);
 		rightDriveMotor.setInverted(true);
+//		rightDriveMotor.setVoltageRampRate((PEAK_FORWARD_VOLTAGE/3));
 		rightDriveMotor2 = new CANTalon(3);
 		rightDriveMotor2.changeControlMode(CANTalon.TalonControlMode.Follower);
-		rightDriveMotor2.setInverted(true);
+		rightDriveMotor2.setInverted(true);	
 		rightDriveMotor2.set(rightDriveMotor.getDeviceID());
-
+//		rightDriveMotor2.setVoltageRampRate((PEAK_FORWARD_VOLTAGE/3));
+		
 		leftDriveMotor = new CANTalon(0);
 		leftDriveMotor = initCANTalon(leftDriveMotor, FeedbackDevice.QuadEncoder, LEFT_DRIVE_REVERSE_SENSOR, 
 				CODES_PER_REV, DRIVE_MOTOR_ACCEPTABLE_ERROR, LEFT_DRIVE_KP, LEFT_DRIVE_KI, LEFT_DRIVE_KD);
 //		leftDriveMotor.setInverted(true);
+//		leftDriveMotor.setVoltageRampRate((PEAK_FORWARD_VOLTAGE/3));
 		leftDriveMotor2 = new CANTalon(1);
 		leftDriveMotor2.changeControlMode(CANTalon.TalonControlMode.Follower);
 		leftDriveMotor2.setInverted(true);
 		leftDriveMotor2.set(leftDriveMotor.getDeviceID());
+//		leftDriveMotor2.setVoltageRampRate((PEAK_FORWARD_VOLTAGE/3));
 
 		armWinchMotor1 = new VictorSP(1);
 		armWinchMotor2 = new VictorSP(0);

@@ -29,9 +29,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	static{
-		System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
-	}
+//	static{
+//		System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
+//	}
 	Command autonomousCommand;
 	SendableChooser chooser;
 	Compressor compressor;
@@ -48,12 +48,13 @@ public class Robot extends IterativeRobot {
 		// barrierChooser = new SendableChooser();
 		compressor = new Compressor();
 		chooser.addDefault("None", new DoNothing());
-		chooser.addObject("Left 1 Over Defense", new LeftOverChassis());
-		chooser.addObject("Left 2 Over Defense", new FarLeftOverChassis());
-		chooser.addObject("Right 1 Over Defense", new RightOverChassis());
-		chooser.addObject("Right 2 Over Defense", new FarRightOverChassis());
-		chooser.addObject("Right 3 Over Defense", new SuperRightOverChassis());
+//		chooser.addObject("Left 1 Over Defense", new LeftOverChassis());
+//		chooser.addObject("Left 2 Over Defense", new FarLeftOverChassis());
+//		chooser.addObject("Right 1 Over Defense", new RightOverChassis());
+//		chooser.addObject("Right 2 Over Defense", new FarRightOverChassis());
+//		chooser.addObject("Right 3 Over Defense", new SuperRightOverChassis());
 		chooser.addObject("Forward Over Defense", new ForwardOverChassis());
+		chooser.addObject("Forward Shooting", new ForwardShoot());
 		chooser.addObject("Forward To Ramp", new ForwardToRamp());
 		chooser.addObject("Spy Shoot", new AutonShootSpyBox());
 		// TODO: Uncomment inits
@@ -64,7 +65,7 @@ public class Robot extends IterativeRobot {
 		AutoTarget.init();//does not contain anything
 
 		SmartDashboard.putData("Auto mode", chooser);
-
+		//SmartDashboard.putData("Current", )
 		/*
 		 * barrierChooser.addDefault("ChevalDeFrise", new
 		 * Barrier_ChevalDeFrise()); barrierChooser.addObject("Drawbridge", new
@@ -94,7 +95,11 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		LiveWindow.run();
-		DashCamera.cameras(Gamepad.secondary.getX());
+		if (Gamepad.secondary.getX()){
+			DashCamera.cameras(Gamepad.secondary.getX());
+		}else{
+			DashCamera.cameras(Gamepad.secondary.getX());
+		}
 		SmartDashboard.putBoolean("Catapult limit switch", !Sensors.getCatapultLimitSwitch().get());
 		SmartDashboard.putNumber("Left Encoder", Actuators.getLeftDriveMotor().getEncPosition());
 		SmartDashboard.putNumber("Right Encoder", Actuators.getRightDriveMotor().getEncPosition());
@@ -213,13 +218,13 @@ public class Robot extends IterativeRobot {
 		//
 		Arm.rollers(Gamepad.secondary.getA(), Gamepad.secondary.getB());
 		//
-		if (Gamepad.secondary.getRB() && toggled == false) {
-			Arm.release();
+//		if (Gamepad.secondary.getRB() && toggled == false) {
+//			Arm.release();
 
-			toggled = Gamepad.secondary.getRB();
-		} else if (!Gamepad.secondary.getRB()) {
-			toggled = Gamepad.secondary.getRB();
-		}
+//			toggled = Gamepad.secondary.getRB();
+//		} else if (!Gamepad.secondary.getRB()) {
+//			toggled = Gamepad.secondary.getRB();
+//		}
 
 		if (Gamepad.secondary.getY()) {
 			 Arm.climb(Gamepad.secondary.getY());
