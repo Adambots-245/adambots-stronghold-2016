@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Camera {
 	
-	private static final int IMAGE_WRITE_ITERATIONS = 10;
+	private static final int IMAGE_WRITE_ITERATIONS = 50;
 	
 	
 	public static final int IMAGE_HEIGHT = 240;
@@ -24,11 +24,11 @@ public class Camera {
 	private static final int WEB_CAM = 0;
 	//HSV Filter constants
 	private static final int V_MAX = 255;
-	private static final int V_MIN = 200;
+	private static final int V_MIN = 150;//122;
 	private static final int S_MAX = 255;
-	private static final int S_MIN = 140;
-	private static final int H_MAX = 180/180 * 255;
-	private static final int H_MIN = 87 / 180 * 255;
+	private static final int S_MIN = 20;//99;
+	private static final int H_MAX = 45;///180 * 255;
+	private static final int H_MIN = 10;///180 * 255;
 
 	//Contour filtering constants
 	private static final double MIN_ASPECT_RATIO = 0;
@@ -36,7 +36,7 @@ public class Camera {
 	private static final int MIN_CONTOUR_WIDTH = 40;
 	private static final int MIN_CONTOUR_HEIGHT = 20;
 	private static final int MAX_CONTOUR_WIDTH = 70;
-	private static final int MAX_CONTOUR_HEIGHT = 100;
+	private static final int MAX_CONTOUR_HEIGHT = 120;
 	private static final int MAX_AREA = -1;
 	private static final int MIN_AREA = -1;
 
@@ -81,6 +81,7 @@ public class Camera {
 		//Opens Camera System
 		videoCapture = new VideoCapture();
 		openStream();
+		SmartDashboard.putBoolean("CAPTURE IMAGE", false);
 	}
 
 	public static boolean openStream(){
@@ -140,9 +141,9 @@ public class Camera {
 			Imgproc.putText(matOriginal, centerX + " : "+ centerY, center, Core.FONT_HERSHEY_PLAIN, 1, RED);
 			Imgproc.putText(matOriginal, "", centerw, Core.FONT_HERSHEY_PLAIN, 1, RED);
 			
-			if(IMAGE_WRITE_ITERATIONS % iterator == 0){
-				Imgcodecs.imwrite("/home/lvuser/output.png", matOriginal);
-			}
+//			if(IMAGE_WRITE_ITERATIONS % iterator == 0){
+//				Imgcodecs.imwrite("/home/lvuser/output.png", matOriginal);
+//			}
 			
 			//---
 			return new Target(centerX, centerY, rec.width * rec.height, distance, rec.height, rec.width);
@@ -154,6 +155,7 @@ public class Camera {
 	
 	
 	public static ArrayList<MatOfPoint> getContours(){
+		System.out.println("Starting Contours");
 		// Grabs image from stream
 //		Mat last = matOriginal;
 //		for(int i = 0; i < 1000 && !matOriginal.empty(); i++){
@@ -167,15 +169,16 @@ public class Camera {
 		}
 //		System.out.println("IS STREAM CLOSED?: "+closeStream());
 //		videoCapture = null;
-		Core.flip(matOriginal, matOriginal, -1);
+		
+//		Core.flip(matOriginal, matOriginal, -1);
 		//Converts image to HSV
 		Imgproc.cvtColor(matOriginal,matHSV,Imgproc.COLOR_RGB2HSV);
 		Core.inRange(matHSV, SCALAR_LOWER_BOUNDS, SCALAR_UPPER_BOUNDS, matThresh);
 		//TODO:TEST CODE---
-		if(IMAGE_WRITE_ITERATIONS % iterator == 0){
-			Imgcodecs.imwrite("/home/lvuser/original.png", matOriginal);
-			Imgcodecs.imwrite("/home/lvuser/thresh.png", matThresh);
-		}
+//		if(SmartDashboard.getBoolean("CAPTURE IMAGE")){
+//			Imgcodecs.imwrite("/home/lvuser/original.png", matOriginal);
+//			Imgcodecs.imwrite("/home/lvuser/thresh.png", matThresh);
+//		}
 		//---
 		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 		contours.clear();
@@ -210,6 +213,7 @@ public class Camera {
 	private static boolean isNotTarget(Rect rec){
 		boolean isTarget = rec.height < MIN_CONTOUR_HEIGHT || rec.width < MIN_CONTOUR_WIDTH;
 		isTarget = isTarget || rec.height > MAX_CONTOUR_HEIGHT || rec.width > MAX_CONTOUR_WIDTH;
+//		isTarget = is
 		return isTarget;
 	}
 	
