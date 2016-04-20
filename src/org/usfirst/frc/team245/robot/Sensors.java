@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 
 /**
@@ -13,7 +12,6 @@ import edu.wpi.first.wpilibj.Solenoid;
  */
 public class Sensors {
 	// Digital
-	private static PowerDistributionPanel pdp;
 	private static Encoder winchEncoder;
 	private static DigitalInput intakeArmPhotoEye;
 	private static DigitalInput boulderCanLaunchPhotoEye;
@@ -32,7 +30,6 @@ public class Sensors {
 	public static void init() {
 		// Digital
 		winchEncoder = new Encoder(0, 1);
-		pdp = new PowerDistributionPanel(0);
 		try {
 			intakeArmPhotoEye = new DigitalInput(5);
 			boulderCanLaunchPhotoEye = new DigitalInput(6);
@@ -61,10 +58,7 @@ public class Sensors {
 	public static DigitalInput getArmMinLimitSwitch() {
 		return armMinLimitSwitch;
 	}
-	
-	public static PowerDistributionPanel pdp() {
-		return pdp;
-	}
+
 	/**
 	 * @return the winchEncoder
 	 */
