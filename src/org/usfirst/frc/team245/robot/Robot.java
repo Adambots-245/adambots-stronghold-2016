@@ -100,6 +100,11 @@ public class Robot extends IterativeRobot {
 		}else{
 			DashCamera.cameras(Gamepad.secondary.getX());
 		}
+		if (Gamepad.primary.getX()){
+			DashCamera.cameras(Gamepad.secondary.getX());
+		}else{
+			DashCamera.cameras(Gamepad.secondary.getX());
+		}
 		SmartDashboard.putBoolean("Catapult limit switch", !Sensors.getCatapultLimitSwitch().get());
 		SmartDashboard.putNumber("Left Encoder", Actuators.getLeftDriveMotor().getEncPosition());
 		SmartDashboard.putNumber("Right Encoder", Actuators.getRightDriveMotor().getEncPosition());
@@ -178,7 +183,7 @@ public class Robot extends IterativeRobot {
 		Actuators.getUnderGlow1().set(true);
 		
 		if(Gamepad.primary.getX()){
-			AutoTarget.centerTarget();
+			DashCamera.cameras(Gamepad.primary.getX());
 		}else{
 			if (Gamepad.primary.getY()) {
 				Drive.drive(Gamepad.primary.getTriggers() / 2, Gamepad.primary.getLeftX() / 2);
