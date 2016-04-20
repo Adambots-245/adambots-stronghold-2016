@@ -185,13 +185,13 @@ public class Robot extends IterativeRobot {
 		if(Gamepad.primary.getX()){
 			DashCamera.cameras(Gamepad.primary.getX());
 		}else{
-			if (Gamepad.primary.getY()) {
-				Drive.drive(Gamepad.primary.getTriggers() / 2, Gamepad.primary.getLeftX() / 2);
-			} else {
-				Drive.drive(Gamepad.primary.getTriggers(), Gamepad.primary.getLeftX());
-			}
+			DashCamera.cameras(Gamepad.secondary.getX());
 		}
-		
+		if (Gamepad.primary.getY()) {
+			Drive.drive(Gamepad.primary.getTriggers() / 2, Gamepad.primary.getLeftX() / 2);
+		} else {
+			Drive.drive(Gamepad.primary.getTriggers(), Gamepad.primary.getLeftX());
+		}
 		
 		
 		DashStringPotentiometer.stringArmAngleMotorDash();
