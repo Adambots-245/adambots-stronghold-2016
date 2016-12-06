@@ -46,7 +46,14 @@ public class DashCamera {
 			e.printStackTrace();
 		}
 	}
-
+	public static void camerasClose(){
+		if(sessionfront != 0 && sessionback != 0){
+			NIVision.IMAQdxCloseCamera(sessionfront);
+			NIVision.IMAQdxCloseCamera(sessionback);
+		}
+		sessionfront = 0;
+		sessionback = 0;
+	}
 	public static void cameras(boolean toggle) {
 //		Point upLeft = new Point(10, 10);
 //		Point upRight = new Point(100,10);
@@ -96,8 +103,8 @@ public class DashCamera {
 				NIVision.imaqFlip(frame, frame, FlipAxis.VERTICAL_AXIS);
 
 			}
+//			CameraServer.getInstance().setQuality(5);
 			CameraServer.getInstance().setImage(frame);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
